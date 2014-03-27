@@ -7,18 +7,18 @@
       <Diagram DiagramId="9f390244dc4d4ef6a80b8dc0cb2e006b" Name="Diagram1" ZoomLevel="89" >
         <EntityTypeShape EntityType="SchoolModel.User" Width="1.5" PointX="4" PointY="3.875" />
         <EntityTypeShape EntityType="SchoolModel.Student" Width="1.5" PointX="6.625" PointY="4.625" />
-        <EntityTypeShape EntityType="SchoolModel.classAssign" Width="1.5" PointX="8.75" PointY="4.375" />
+        <EntityTypeShape EntityType="SchoolModel.Student_Subject" Width="1.5" PointX="8.75" PointY="4.375" />
         <EntityTypeShape EntityType="SchoolModel.Subject" Width="1.5" PointX="11.125" PointY="4.125" />
         <AssociationConnector Association="SchoolModel.UserStudent" />
-        <AssociationConnector Association="SchoolModel.StudentclassAssign" />
-        <AssociationConnector Association="SchoolModel.ClassclassAssign" />
-        <AssociationConnector Association="SchoolModel.StudentClass" ManuallyRouted="false" >
+        <AssociationConnector Association="SchoolModel.StudentStudent_Subject" />
+        <AssociationConnector Association="SchoolModel.SubjectStudent_Subject" />
+        <AssociationConnector Association="SchoolModel.StudentSubject" ManuallyRouted="false" >
         </AssociationConnector>
         <EntityTypeShape EntityType="SchoolModel.Teacher" Width="1.5" PointX="4" PointY="0.5" />
         <EntityTypeShape EntityType="SchoolModel.Lesson" Width="1.5" PointX="11" PointY="7.625" />
         <AssociationConnector Association="SchoolModel.UserTeacher" />
-        <AssociationConnector Association="SchoolModel.TeacherClass" />
-        <AssociationConnector Association="SchoolModel.ClassLesson" />
+        <AssociationConnector Association="SchoolModel.TeacherSubject" />
+        <AssociationConnector Association="SchoolModel.SubjectLesson" />
         <EntityTypeShape EntityType="SchoolModel.Student_Lesson" Width="1.5" PointX="6.75" PointY="7.75" />
         <AssociationConnector Association="SchoolModel.StudentStudent_Lesson" />
         <AssociationConnector Association="SchoolModel.LessonStudent_Lesson" />
