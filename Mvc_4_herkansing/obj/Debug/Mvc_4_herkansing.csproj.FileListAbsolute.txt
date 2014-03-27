@@ -94,3 +94,4 @@ G:\Users\Bart\Documents\GitHub\MVC-herkansing\Mvc_4_herkansing\bin\DotNetOpenAut
 G:\Users\Bart\Documents\GitHub\MVC-herkansing\Mvc_4_herkansing\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 G:\Users\Bart\Documents\GitHub\MVC-herkansing\Mvc_4_herkansing\obj\Debug\Mvc_4_herkansing.dll
 G:\Users\Bart\Documents\GitHub\MVC-herkansing\Mvc_4_herkansing\obj\Debug\Mvc_4_herkansing.pdb
+G:\Users\Bart\Documents\GitHub\MVC-herkansing\Mvc_4_herkansing\obj\Debug\Mvc_4_herkansing.csprojResolveAssemblyReference.cache
