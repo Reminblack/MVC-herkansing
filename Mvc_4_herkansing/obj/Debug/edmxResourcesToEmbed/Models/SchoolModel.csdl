@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="SchoolModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="SchoolModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="UsersSet" EntityType="SchoolModel.User" />
+    <EntitySet Name="Student" EntityType="SchoolModel.Student" />
+    <EntitySet Name="groupAssignSet" EntityType="SchoolModel.classAssign" />
+    <EntitySet Name="GroupSet" EntityType="SchoolModel.Class" />
+    <AssociationSet Name="UserStudent" Association="SchoolModel.UserStudent">
+      <End Role="User" EntitySet="UsersSet" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+    <AssociationSet Name="StudentclassAssign" Association="SchoolModel.StudentclassAssign">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="classAssign" EntitySet="groupAssignSet" />
+    </AssociationSet>
+    <AssociationSet Name="ClassclassAssign" Association="SchoolModel.ClassclassAssign">
+      <End Role="Class" EntitySet="GroupSet" />
+      <End Role="classAssign" EntitySet="groupAssignSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+    <Property Type="String" Name="username" Nullable="false" />
+    <Property Type="String" Name="password" Nullable="false" />
+    <NavigationProperty Name="Student" Relationship="SchoolModel.UserStudent" FromRole="User" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="studentId" />
+    </Key>
+    <Property Type="Int32" Name="studentId" Nullable="false" />
+    <Property Type="String" Name="Student_Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Student_surname" Nullable="false" />
+    <Property Type="String" Name="aanhef" Nullable="false" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="SchoolModel.UserStudent" FromRole="Student" ToRole="User" />
+    <NavigationProperty Name="classAssign" Relationship="SchoolModel.StudentclassAssign" FromRole="Student" ToRole="classAssign" />
+  </EntityType>
+  <EntityType Name="classAssign">
+    <Key>
+      <PropertyRef Name="Student_studentId" />
+      <PropertyRef Name="Class_classId" />
+    </Key>
+    <Property Type="Int32" Name="Student_studentId" Nullable="false" />
+    <Property Type="Int32" Name="Class_classId" Nullable="false" />
+    <NavigationProperty Name="Student" Relationship="SchoolModel.StudentclassAssign" FromRole="classAssign" ToRole="Student" />
+    <NavigationProperty Name="Class" Relationship="SchoolModel.ClassclassAssign" FromRole="classAssign" ToRole="Class" />
+  </EntityType>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="classId" />
+    </Key>
+    <Property Type="Int32" Name="classId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+    <Property Type="String" Name="name" Nullable="false" />
+    <NavigationProperty Name="classAssign" Relationship="SchoolModel.ClassclassAssign" FromRole="Class" ToRole="classAssign" />
+  </EntityType>
+  <Association Name="UserStudent">
+    <End Type="SchoolModel.User" Role="User" Multiplicity="1" />
+    <End Type="SchoolModel.Student" Role="Student" Multiplicity="*" />
+  </Association>
+  <Association Name="StudentclassAssign">
+    <End Type="SchoolModel.Student" Role="Student" Multiplicity="1" />
+    <End Type="SchoolModel.classAssign" Role="classAssign" Multiplicity="*" />
+  </Association>
+  <Association Name="ClassclassAssign">
+    <End Type="SchoolModel.Class" Role="Class" Multiplicity="1" />
+    <End Type="SchoolModel.classAssign" Role="classAssign" Multiplicity="*" />
+  </Association>
+</Schema>
