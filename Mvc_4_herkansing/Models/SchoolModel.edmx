@@ -16,7 +16,7 @@
           <EntitySet Name="UsersSet" EntityType="SchoolModel.User" />
           <EntitySet Name="Student" EntityType="SchoolModel.Student" />
           <EntitySet Name="groupAssignSet" EntityType="SchoolModel.classAssign" />
-          <EntitySet Name="GroupSet" EntityType="SchoolModel.Class" />
+          <EntitySet Name="GroupSet" EntityType="SchoolModel.Subject" />
           <AssociationSet Name="UserStudent" Association="SchoolModel.UserStudent">
             <End Role="User" EntitySet="UsersSet" />
             <End Role="Student" EntitySet="Student" />
@@ -29,58 +29,206 @@
             <End Role="Class" EntitySet="GroupSet" />
             <End Role="classAssign" EntitySet="groupAssignSet" />
           </AssociationSet>
+          <AssociationSet Name="StudentClass" Association="SchoolModel.StudentClass">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Class" EntitySet="GroupSet" />
+          </AssociationSet>
+          <EntitySet Name="TeacherSet" EntityType="SchoolModel.Teacher" />
+          <EntitySet Name="LessonSet" EntityType="SchoolModel.Lesson" />
+          <AssociationSet Name="UserTeacher" Association="SchoolModel.UserTeacher">
+            <End Role="User" EntitySet="UsersSet" />
+            <End Role="Teacher" EntitySet="TeacherSet" />
+          </AssociationSet>
+          <AssociationSet Name="TeacherClass" Association="SchoolModel.TeacherClass">
+            <End Role="Teacher" EntitySet="TeacherSet" />
+            <End Role="Class" EntitySet="GroupSet" />
+          </AssociationSet>
+          <AssociationSet Name="ClassLesson" Association="SchoolModel.ClassLesson">
+            <End Role="Class" EntitySet="GroupSet" />
+            <End Role="Lesson" EntitySet="LessonSet" />
+          </AssociationSet>
+          <EntitySet Name="Student_LessonSet" EntityType="SchoolModel.Student_Lesson" />
+          <AssociationSet Name="StudentStudent_Lesson" Association="SchoolModel.StudentStudent_Lesson">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Student_Lesson" EntitySet="Student_LessonSet" />
+          </AssociationSet>
+          <AssociationSet Name="LessonStudent_Lesson" Association="SchoolModel.LessonStudent_Lesson">
+            <End Role="Lesson" EntitySet="LessonSet" />
+            <End Role="Student_Lesson" EntitySet="Student_LessonSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="username" Nullable="false" />
           <Property Type="String" Name="password" Nullable="false" />
           <NavigationProperty Name="Student" Relationship="SchoolModel.UserStudent" FromRole="User" ToRole="Student" />
+          <Property Type="String" Name="Voornaam" Nullable="false" />
+          <Property Type="String" Name="Achternaam" Nullable="false" />
+          <Property Type="String" Name="Tussenvoegsel" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="Boolean" Name="isAdmin" Nullable="false" />
+          <NavigationProperty Name="Teacher" Relationship="SchoolModel.UserTeacher" FromRole="User" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
-            <PropertyRef Name="studentId" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Int32" Name="studentId" Nullable="false" />
-          <Property Type="String" Name="Student_Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Student_surname" Nullable="false" />
-          <Property Type="String" Name="aanhef" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <NavigationProperty Name="User" Relationship="SchoolModel.UserStudent" FromRole="Student" ToRole="User" />
           <NavigationProperty Name="classAssign" Relationship="SchoolModel.StudentclassAssign" FromRole="Student" ToRole="classAssign" />
+          <NavigationProperty Name="Class" Relationship="SchoolModel.StudentClass" FromRole="Student" ToRole="Class" />
+          <NavigationProperty Name="Student_Lesson" Relationship="SchoolModel.StudentStudent_Lesson" FromRole="Student" ToRole="Student_Lesson" />
         </EntityType>
         <EntityType Name="classAssign">
           <Key>
-            <PropertyRef Name="Student_studentId" />
-            <PropertyRef Name="Class_classId" />
+            <PropertyRef Name="StudentID" />
+            <PropertyRef Name="ClassID" />
           </Key>
-          <Property Type="Int32" Name="Student_studentId" Nullable="false" />
-          <Property Type="Int32" Name="Class_classId" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="ClassID" Nullable="false" />
           <NavigationProperty Name="Student" Relationship="SchoolModel.StudentclassAssign" FromRole="classAssign" ToRole="Student" />
           <NavigationProperty Name="Class" Relationship="SchoolModel.ClassclassAssign" FromRole="classAssign" ToRole="Class" />
         </EntityType>
-        <EntityType Name="Class">
+        <EntityType Name="Subject">
           <Key>
-            <PropertyRef Name="classId" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Type="Int32" Name="classId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="name" Nullable="false" />
           <NavigationProperty Name="classAssign" Relationship="SchoolModel.ClassclassAssign" FromRole="Class" ToRole="classAssign" />
+          <NavigationProperty Name="Student" Relationship="SchoolModel.StudentClass" FromRole="Class" ToRole="Student" />
+          <NavigationProperty Name="Teacher" Relationship="SchoolModel.TeacherClass" FromRole="Class" ToRole="Teacher" />
+          <NavigationProperty Name="Lesson" Relationship="SchoolModel.ClassLesson" FromRole="Class" ToRole="Lesson" />
+          <Property Type="String" Name="TeacherID" Nullable="false" />
         </EntityType>
         <Association Name="UserStudent">
           <End Type="SchoolModel.User" Role="User" Multiplicity="1" />
-          <End Type="SchoolModel.Student" Role="Student" Multiplicity="*" />
+          <End Type="SchoolModel.Student" Role="Student" Multiplicity="*" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="StudentclassAssign">
           <End Type="SchoolModel.Student" Role="Student" Multiplicity="1" />
           <End Type="SchoolModel.classAssign" Role="classAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="classAssign">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="ClassclassAssign">
-          <End Type="SchoolModel.Class" Role="Class" Multiplicity="1" />
+          <End Type="SchoolModel.Subject" Role="Class" Multiplicity="1" />
           <End Type="SchoolModel.classAssign" Role="classAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="classAssign">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StudentClass">
+          <End Type="SchoolModel.Student" Role="Student" Multiplicity="*" />
+          <End Type="SchoolModel.Subject" Role="Class" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="SchoolModel.UserTeacher" FromRole="Teacher" ToRole="User" />
+          <NavigationProperty Name="Class1" Relationship="SchoolModel.TeacherClass" FromRole="Teacher" ToRole="Class" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="name" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="SchoolModel.ClassLesson" FromRole="Lesson" ToRole="Class" />
+          <NavigationProperty Name="Student_Lesson" Relationship="SchoolModel.LessonStudent_Lesson" FromRole="Lesson" ToRole="Student_Lesson" />
+          <Property Type="String" Name="SubjectID" Nullable="false" />
+        </EntityType>
+        <Association Name="UserTeacher">
+          <End Type="SchoolModel.User" Role="User" Multiplicity="1" />
+          <End Type="SchoolModel.Teacher" Role="Teacher" Multiplicity="*" />
+        </Association>
+        <Association Name="TeacherClass">
+          <End Type="SchoolModel.Teacher" Role="Teacher" Multiplicity="1" />
+          <End Type="SchoolModel.Subject" Role="Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClassLesson">
+          <End Type="SchoolModel.Subject" Role="Class" Multiplicity="1" />
+          <End Type="SchoolModel.Lesson" Role="Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Student_Lesson">
+          <Key>
+            <PropertyRef Name="LessonId" />
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Type="Int32" Name="LessonId" Nullable="false" />
+          <Property Type="Int32" Name="StudentId" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="SchoolModel.StudentStudent_Lesson" FromRole="Student_Lesson" ToRole="Student" />
+          <NavigationProperty Name="Lesson" Relationship="SchoolModel.LessonStudent_Lesson" FromRole="Student_Lesson" ToRole="Lesson" />
+          <Property Type="Boolean" Name="Aanwezig" Nullable="false" />
+        </EntityType>
+        <Association Name="StudentStudent_Lesson">
+          <End Type="SchoolModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="SchoolModel.Student_Lesson" Role="Student_Lesson" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student_Lesson">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LessonStudent_Lesson">
+          <End Type="SchoolModel.Lesson" Role="Lesson" Multiplicity="1" />
+          <End Type="SchoolModel.Student_Lesson" Role="Student_Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lesson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student_Lesson">
+              <PropertyRef Name="LessonId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
